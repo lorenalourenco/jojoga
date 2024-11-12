@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jogadores</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+<div th:insert="fragments/navbar :: navbar"></div>
+
+<div>
+  <h1>Jogadores</h1>
+  <p>Lista de jogadores cadastrados</p>
+</div>
+<a th:href="@{/jogador/form}">
+  <button class="btn btn-primary">Cadastrar novo jogador</button>
+</a>
+<div class="text-center">
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">Nome</th>
+      <th scope="col">Valor Aposta</th>
+      <th scope="col">Ações</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="jogador: ${jogadores}">
+      <td th:text="${jogador.nome}"></td>
+      <td th:text="${jogador.valorAposta}"></td>
+      <td>
+        <a class="btn btn-secondary" th:href="@{'/jogador/form/' + ${jogador.id}}" role="button"><i class="ph ph-pencil">Editar</i></a>
+        <a class="btn btn-danger" th:href="@{'/jogador/delete/' + ${jogador.id}}" role="button"><i class="ph ph-trash">Excluir</i></a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

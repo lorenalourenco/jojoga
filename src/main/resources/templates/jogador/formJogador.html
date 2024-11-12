@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:if="${action == 'create'}">Cadastrar jogador</title>
+    <title th:if="${action == 'edit'}">Editar jogador</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<h3 th:if="${action == 'create'}">Cadastrar jogador</h3>
+<h3 th:if="${action == 'edit'}">Editar jogador</h3>
+
+<form class="w-50 p-3" th:object="${jogador}" th:action="${action == 'create' ? '/jogador/create' : '/jogador/edit/' + jogador.id}" method="post">
+    <div class="mb-3">
+        <label for="userName" class="form-label">Nome</label>
+        <input type="text" class="form-control" id="userName" required th:field="*{nome}">
+    </div>
+    <div class="mb-3">
+        <label for="userName" class="form-label">Valor Aposta</label>
+        <input type="text" class="form-control" id="valorAposta" required th:field="*{valorAposta}">
+    </div>
+
+    <button type="submit" class="btn btn-primary" th:if="${action == 'create'}">Cadastrar</button>
+    <button type="submit" class="btn btn-primary" th:if="${action == 'edit'}">Editar</button>
+</form>
+</body>
+</html>

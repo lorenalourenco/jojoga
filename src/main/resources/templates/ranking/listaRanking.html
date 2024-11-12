@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ranking</title>
+  <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+</head>
+<body>
+  <div th:replace="~{fragments/navbar :: navbar}"></div>
+    <h1>Ranking</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Posição</th>
+            <th scope="col">Vitórias</th>
+            <th scope="col">Jogador</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="jogador, iterStat : ${jogadores}">
+            <td th:text="${iterStat.count}"></td>
+            <td th:text="${jogador.value}"></td>
+            <td th:text="${jogador.key.nome}"></td>
+
+        </tr>
+        </tbody>
+    </table>
+  <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

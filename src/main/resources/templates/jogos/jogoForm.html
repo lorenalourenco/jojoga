@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Seleção de Jogadores</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+            color: #343a40;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 20px auto;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #343a40;
+        }
+
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        #loading-screen {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 1000;
+            text-align: center;
+            padding-top: 20%;
+            font-size: 24px;
+            color: #007bff;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        #loading-gif {
+            width: 300px;
+            margin: 20px auto;
+        }
+
+        #progress-bar {
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        #progress-bar div {
+            height: 100%;
+            width: 0;
+            background: #007bff;
+            transition: width 1s ease;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+
+<h1>Selecione até 11 Jogadores</h1>
+
+<div id="loading-screen">
+    <p>Sorteando jogadores...</p>
+    <img id="loading-gif" th:src="@{/img/loading.gif}" alt="Loading">
+    <div id="progress-bar">
+        <div></div>
+    </div>
+</div>
+
+<form th:action="@{/jogo/salvar}" th:object="${jogo}" method="post" id="player-form">
+    <div class="checkbox-group">
+        <div th:each="jogador : ${jogadores}">
+            <label>
+                <input type="checkbox" th:field="*{idsParticipantes}" th:value="${jogador.id}">
+                <span th:text="${jogador.nome}"></span>
+            </label>
+        </div>
+    </div>
+
+    <button type="submit">Enviar</button>
+</form>
+
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+<script>
+    document.getElementById('player-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const loadingScreen = document.getElementById('loading-screen');
+        const progressBar = document.getElementById('progress-bar').firstElementChild;
+
+        loadingScreen.style.display = 'block';
+        setTimeout(function () {
+            loadingScreen.style.opacity = '1';
+        }, 10);
+        progressBar.style.width = '100%';
+
+        setTimeout(function () {
+            document.getElementById('player-form').submit();
+        }, 2000);
+    });
+</script>
+</body>
+</html>
